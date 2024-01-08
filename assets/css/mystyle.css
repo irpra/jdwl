@@ -1,0 +1,27 @@
+body {
+  font-family: "Roboto", serif;
+  font-size: 18px;
+  background-color: lightgoldenrodyellow;
+}
+
+h1 {
+  font-family: "Rubik Doodle Shadow", serif;
+  font-size: 50px;
+}
+
+h2 {
+  font-family: "Arial Narrow", serif;
+  font-size:large;
+}
+
+table {
+  background-color: rgb(190, 236, 252);
+}
+thead {
+  text-align: center;
+  background-color: lightskyblue;
+}
+p {
+  margin: 0;
+  text-indent: 0;
+}

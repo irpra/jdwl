@@ -259,11 +259,10 @@ function lihatjadwalKelas(x) {
       );
       li.appendChild(liText);
       ul.appendChild(li);
-
-      document
+    }
+    document
         .getElementById("lihatjadwalKelas")
         .appendChild(ul).innerHTML += `<hr style="border-top: 2px solid red;">`;
-    }
   }
 }
 /*

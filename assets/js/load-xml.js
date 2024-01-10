@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   //fetch the data as soon as the page has loaded
-  let url = "../jdwl/assets/data/jadwal.xml";
+  let url = "../assets/data/jadwal.xml";
   fetch(url)
     .then((response) => response.text())
     .then((data) => {
@@ -184,7 +184,9 @@ function lihatjadwalKelas(x) {
       for (t = 0; t < teachersidsLesson.length; t++) {
         for (j = 0; j < x.getElementsByTagName("teacher").length; j++) {
           idTeacher = x.getElementsByTagName("teacher")[j].getAttribute("id");
-          genderTeacher = x.getElementsByTagName("teacher")[j].getAttribute("gender");
+          genderTeacher = x
+            .getElementsByTagName("teacher")
+            [j].getAttribute("gender");
           if (teachersidsLesson[t] == idTeacher) {
             if (teachersidsLesson.length > 1) {
               nameTeacherLesson =
@@ -196,71 +198,38 @@ function lihatjadwalKelas(x) {
                 .getElementsByTagName("teacher")
                 [j].getAttribute("name");
             }
-            if (genderTeacher == "M"){
-              titleTeacherLesson = "Bapak "
-            } else {titleTeacherLesson = "Ibu "}
-          } else null;
-          
-        }
-      }
-      namedaydefCard = "";
-      daysCard = "";
-      periodCard = "";
-      koma =""
-      for (j = 0; j < x.getElementsByTagName("card").length; j++) {
-        lessonidCard = x
-          .getElementsByTagName("card")
-          [j].getAttribute("lessonid");
-
-        if (lessonidCard == idLesson) {
-          daysCard = x.getElementsByTagName("card")[j].getAttribute("days");
-          
-          
-          for (h = 0; h < x.getElementsByTagName("daysdef").length; h++) {
-            daysDaysdef = x
-              .getElementsByTagName("daysdef")
-              [h].getAttribute("days");
-            if (daysCard == daysDaysdef) {
-              namedaydefCard = namedaydefCard + x
-                .getElementsByTagName("daysdef")
-                [h].getAttribute("name");
+            if (genderTeacher == "M") {
+              titleTeacherLesson = "Bapak ";
+            } else {
+              titleTeacherLesson = "Ibu ";
             }
-            
-          }
-          if (periodCard != ""){
-            koma=", "
-          }
-          periodCard = periodCard + koma +x.getElementsByTagName("card")[j].getAttribute("period");
+          } else null;
         }
-        
-        console.log(
-          countLessonidClass,
-          nameClass,
-          nameSubjectLesson,
-          namedaydefCard,
-          titleTeacherLesson,
-          nameTeacherLesson,
-          periodCard
-        );
-        
       }
+      console.log(
+        countLessonidClass,
+        nameClass,
+        nameSubjectLesson,
+        //namedaydefCard,
+        titleTeacherLesson,
+        nameTeacherLesson
+        //periodCard
+      );
+
       let liText = document.createTextNode(
         "Mapel: " +
           nameSubjectLesson +
           "(" +
           periodspercardLesson +
           "jp), " +
-          "Pada hari " +
-          namedaydefCard +
-          " jam ke-" +
-          periodCard +
-          " dengan Guru: " + titleTeacherLesson +
+          " dengan Guru: " +
+          titleTeacherLesson +
           nameTeacherLesson
       );
       li.appendChild(liText);
       ul.appendChild(li);
-    
-    document
+
+      document
         .getElementById("lihatjadwalKelas")
         .appendChild(ul).innerHTML += `<hr style="border-top: 2px solid red;">`;
     }

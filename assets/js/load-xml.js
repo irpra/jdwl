@@ -132,10 +132,10 @@ function ambilGuru(x) {
 
 function lihatjadwalKelas(x) {
   // CEK IDCLASS UTK MENAMPILKAN NAMA KELAS DAN WALI KELAS
-  let idClass = x.getElementsByTagName("class")[20].getAttribute("id");
-  let nameClass = x.getElementsByTagName("class")[20].getAttribute("name");
+  let idClass = x.getElementsByTagName("class")[0].getAttribute("id");
+  let nameClass = x.getElementsByTagName("class")[0].getAttribute("name");
   let teacheridClass = x
-    .getElementsByTagName("class")[20]
+    .getElementsByTagName("class")[0]
     .getAttribute("teacherid");
   document
     .getElementById("jdlKelas")

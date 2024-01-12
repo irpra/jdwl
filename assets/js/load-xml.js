@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch(url)
     .then((response) => response.text())
     .then((data) => {
-      //console.log(data); //string
       let parser = new DOMParser();
       let xml = parser.parseFromString(data, "application/xml");
       ambilMapel(xml);
@@ -44,13 +43,24 @@ function ambilMapel(x) {
     tblBody.appendChild(row);
   }
   document.getElementById("tblMapel").appendChild(tblBody);
-  // put the <tbody> in the <table>
-  //tbl.appendChild(tblBody);
-  // appends <table> into <body>
-  //document.body.appendChild(tbl);
-  // sets the border attribute of tbl to '2'
-  //tbl.setAttribute( "align", "center");
-  // tbl.setAttribute("border","1");
+  $("#tblMapel").DataTable({
+    responsive: true,
+    scrollX: false,
+
+    dom: "Blftrip",
+    buttons: ["pdf", "print"],
+    columnDefs: [
+      {
+        targets: 0,
+        visible: false,
+        searchable: false,
+        orderable: false,
+      },
+    ],
+    order: [[1, "asc"]],
+    //buttons: ["copy", "csv", "excel", "pdf", "print"],
+    //dom: '<"top"if>rt<"bottom"lp><"clear">',
+  });
 }
 
 function ambilGuru(x) {
@@ -200,9 +210,10 @@ function lihatjadwalKelas(x) {
             }
             if (genderTeacher == "M") {
               titleTeacherLesson = "Bapak ";
-            } else {
+            } else if{
+              genderTeacher == "F"
               titleTeacherLesson = "Ibu ";
-            }
+            } else null;
           } else null;
         }
       }

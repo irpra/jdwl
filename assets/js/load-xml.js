@@ -210,8 +210,7 @@ function lihatjadwalKelas(x) {
             }
             if (genderTeacher == "M") {
               titleTeacherLesson = "Bapak ";
-            } else if{
-              genderTeacher == "F"
+            } else if (genderTeacher == "F"){
               titleTeacherLesson = "Ibu ";
             } else null;
         }

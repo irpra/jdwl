@@ -214,7 +214,6 @@ function lihatjadwalKelas(x) {
               genderTeacher == "F"
               titleTeacherLesson = "Ibu ";
             } else null;
-          } else null;
         }
       }
       console.log(

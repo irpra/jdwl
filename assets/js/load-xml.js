@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   //fetch the data as soon as the page has loaded
-  let url = "../jdwl/assets/data/jadwal.xml";
+  let url = "../assets/data/jadwal.xml";
   fetch(url)
     .then((response) => response.text())
     .then((data) => {
+      //console.log(data); //string
       let parser = new DOMParser();
       let xml = parser.parseFromString(data, "application/xml");
       ambilMapel(xml);
@@ -132,10 +133,10 @@ function ambilGuru(x) {
 
 function lihatjadwalKelas(x) {
   // CEK IDCLASS UTK MENAMPILKAN NAMA KELAS DAN WALI KELAS
-  let idClass = x.getElementsByTagName("class")[0].getAttribute("id");
-  let nameClass = x.getElementsByTagName("class")[0].getAttribute("name");
+  let idClass = x.getElementsByTagName("class")[11].getAttribute("id");
+  let nameClass = x.getElementsByTagName("class")[11].getAttribute("name");
   let teacheridClass = x
-    .getElementsByTagName("class")[0]
+    .getElementsByTagName("class")[11]
     .getAttribute("teacherid");
   document
     .getElementById("jdlKelas")
@@ -187,32 +188,46 @@ function lihatjadwalKelas(x) {
             [j].getAttribute("name");
         }
       }
-      //KONVERSI TEACHERSID DI PEMBELAJARAN MENJADI NAMA GURU YANG MENGAMPU MATA PELAJARAN
-      //nameTeacherLesson = "";
-      //titleTeacherLesson = "";
+      //KONVERSI TEACHERSID DI PEMBELAJARAN MENJADI GENDER & NAMA GURU YANG MENGAMPU MATA PELAJARAN
+      nameTeacherLesson = "";
+      titleTeacherLesson = "";
+      gendernameTeacherLesson = "";
+      genderTeacher = "";
       let li = document.createElement("li");
       for (t = 0; t < teachersidsLesson.length; t++) {
         for (j = 0; j < x.getElementsByTagName("teacher").length; j++) {
           idTeacher = x.getElementsByTagName("teacher")[j].getAttribute("id");
-          genderTeacher = x
-            .getElementsByTagName("teacher")
-            [j].getAttribute("gender");
+          console.log(teachersidsLesson.length);
           if (teachersidsLesson[t] == idTeacher) {
-            if (teachersidsLesson.length > 1) {
-              nameTeacherLesson =
-                nameTeacherLesson +
-                " dan " +
-                x.getElementsByTagName("teacher")[j].getAttribute("name");
-            } else {
-              nameTeacherLesson = x
-                .getElementsByTagName("teacher")
-                [j].getAttribute("name");
-            }
+            genderTeacher = x
+              .getElementsByTagName("teacher")
+              [j].getAttribute("gender");
             if (genderTeacher == "M") {
               titleTeacherLesson = "Bapak ";
-            } else if (genderTeacher == "F"){
+            } else if (genderTeacher == "F") {
               titleTeacherLesson = "Ibu ";
-            } else null;
+            } else {
+              titleTeacherLesson = "";
+            }
+            nameTeacherLesson = x
+              .getElementsByTagName("teacher")
+              [j].getAttribute("name");
+            //gendernameTeacherLesson = titleTeacherLesson + nameTeacherLesson;
+            if (teachersidsLesson.length > 1) {
+              if (gendernameTeacherLesson != "") {
+                gendernameTeacherLesson =
+                  gendernameTeacherLesson +
+                  " dan " +
+                  (titleTeacherLesson + nameTeacherLesson);
+              } else
+                gendernameTeacherLesson =
+                  gendernameTeacherLesson +
+                  (titleTeacherLesson + nameTeacherLesson);
+            } else {
+              gendernameTeacherLesson = titleTeacherLesson + nameTeacherLesson;
+            }
+            console.log(gendernameTeacherLesson);
+          }
         }
       }
       console.log(
@@ -220,8 +235,7 @@ function lihatjadwalKelas(x) {
         nameClass,
         nameSubjectLesson,
         //namedaydefCard,
-        titleTeacherLesson,
-        nameTeacherLesson
+        gendernameTeacherLesson
         //periodCard
       );
 
@@ -232,8 +246,7 @@ function lihatjadwalKelas(x) {
           periodspercardLesson +
           "jp), " +
           " dengan Guru: " +
-          titleTeacherLesson +
-          nameTeacherLesson
+          gendernameTeacherLesson
       );
       li.appendChild(liText);
       ul.appendChild(li);

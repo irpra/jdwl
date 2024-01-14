@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   //fetch the data as soon as the page has loaded
-  let url = "../jdwl/assets/data/jadwal.xml";
+  let url = "../assets/data/jadwal.xml";
   fetch(url)
     .then((response) => response.text())
     .then((data) => {
@@ -133,10 +133,10 @@ function ambilGuru(x) {
 
 function lihatjadwalKelas(x) {
   // CEK IDCLASS UTK MENAMPILKAN NAMA KELAS DAN WALI KELAS
-  let idClass = x.getElementsByTagName("class")[11].getAttribute("id");
-  let nameClass = x.getElementsByTagName("class")[11].getAttribute("name");
+  let idClass = x.getElementsByTagName("class")[20].getAttribute("id");
+  let nameClass = x.getElementsByTagName("class")[20].getAttribute("name");
   let teacheridClass = x
-    .getElementsByTagName("class")[11]
+    .getElementsByTagName("class")[20]
     .getAttribute("teacherid");
   document
     .getElementById("jdlKelas")
@@ -177,6 +177,7 @@ function lihatjadwalKelas(x) {
         .getElementsByTagName("lesson")
         [i].getAttribute("subjectid");
     }
+
     //KONVERSI SUBJECTID DI PEMBELAJARAN MENJADI NAMA MATA PELAJARAN
     nameSubjectLesson = "";
     if (classidsLesson == idClass && subjectidLesson != "") {
@@ -188,12 +189,16 @@ function lihatjadwalKelas(x) {
             [j].getAttribute("name");
         }
       }
+
       //KONVERSI TEACHERSID DI PEMBELAJARAN MENJADI GENDER & NAMA GURU YANG MENGAMPU MATA PELAJARAN
-      nameTeacherLesson = "";
-      titleTeacherLesson = "";
-      gendernameTeacherLesson = "";
-      genderTeacher = "";
-      let li = document.createElement("li");
+      nameTeacherLesson = ""; //variabel untuk nama guru di pembelajaran
+      titleTeacherLesson = ""; //variabel untuk sebutan guru berdasar gender (akan terisi dg Bapak/Ibu)
+      gendernameTeacherLesson = ""; //variabel untuk sebutan dan nama guru
+      genderTeacher = ""; //variabel gender di tabel Teacher (isinya M / F)
+      periodCard = "";
+      daysCard = "";
+      namedaysCard = "";
+      let li = document.createElement("li"); //persiapan ordered/undered list
       for (t = 0; t < teachersidsLesson.length; t++) {
         for (j = 0; j < x.getElementsByTagName("teacher").length; j++) {
           idTeacher = x.getElementsByTagName("teacher")[j].getAttribute("id");
@@ -212,7 +217,7 @@ function lihatjadwalKelas(x) {
             nameTeacherLesson = x
               .getElementsByTagName("teacher")
               [j].getAttribute("name");
-            //gendernameTeacherLesson = titleTeacherLesson + nameTeacherLesson;
+
             if (teachersidsLesson.length > 1) {
               if (gendernameTeacherLesson != "") {
                 gendernameTeacherLesson =
@@ -226,30 +231,61 @@ function lihatjadwalKelas(x) {
             } else {
               gendernameTeacherLesson = titleTeacherLesson + nameTeacherLesson;
             }
-            console.log(gendernameTeacherLesson);
+            //console.log(gendernameTeacherLesson);
           }
         }
       }
-      console.log(
-        countLessonidClass,
-        nameClass,
-        nameSubjectLesson,
-        //namedaydefCard,
-        gendernameTeacherLesson
-        //periodCard
-      );
 
-      let liText = document.createTextNode(
-        "Mapel: " +
-          nameSubjectLesson +
-          "(" +
-          periodspercardLesson +
-          "jp), " +
-          " dengan Guru: " +
-          gendernameTeacherLesson
-      );
-      li.appendChild(liText);
-      ul.appendChild(li);
+      //MENGAMBIL HARI-HARI DAN JAM-JAM PERIODE PEMBELAJARAN DI TAG-ID CARD
+      countLessonidCard = "";
+      namedaysperiodCard = "";
+
+      for (c = 0; c < x.getElementsByTagName("card").length; c++) {
+        lessonidCard = x
+          .getElementsByTagName("card")
+          [c].getAttribute("lessonid");
+        if (idLesson == lessonidCard) {
+          daysCard = x.getElementsByTagName("card")[c].getAttribute("days");
+          for (d = 0; d < x.getElementsByTagName("daysdef").length; d++) {
+            daysDaysdef = x
+              .getElementsByTagName("daysdef")
+              [d].getAttribute("days");
+            if (daysDaysdef == daysCard) {
+              namedaysCard = x
+                .getElementsByTagName("daysdef")
+                [d].getAttribute("name");
+              periodCard = x
+                .getElementsByTagName("card")
+                [c].getAttribute("period");
+            }
+          }
+
+          //console.log(nameSubjectLesson, namedaysCard, periodCard, namedaysperiodCard);
+
+          console.log(
+            countLessonidClass,
+            nameClass,
+            nameSubjectLesson,
+            gendernameTeacherLesson,
+            namedaysCard,
+            periodCard
+          );
+          let br = document.createElement("br");
+          let liText = document.createTextNode(
+            "Mapel: " +
+              nameSubjectLesson +
+              " dengan Guru: " +
+              gendernameTeacherLesson +
+              ", pada hari: " +
+              namedaysCard +
+              " jam ke-" +
+              periodCard
+          );
+          li.appendChild(liText);
+          li.appendChild(br);
+          ul.appendChild(li);
+        }
+      }
 
       document
         .getElementById("lihatjadwalKelas")

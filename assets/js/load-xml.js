@@ -1,16 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
   //fetch the data as soon as the page has loaded
-  let url = "../jdwl/assets/data/jadwal.xml";
+  let url = "../assets/data/jadwal.xml";
   fetch(url)
     .then((response) => response.text())
     .then((data) => {
       //console.log(data); //string
       let parser = new DOMParser();
       let xml = parser.parseFromString(data, "application/xml");
+      let y = 0;
       ambilMapel(xml);
       ambilGuru(xml);
       //  ambilHari(xml);
-      lihatjadwalKelas(xml);
+      //lihatjadwal1Kelas(xml);
+      lihatAllKelas(xml, y);
+      console.log(y);
     });
 });
 
@@ -131,14 +134,22 @@ function ambilGuru(x) {
   //});
 }
 
-function lihatjadwalKelas(x) {
+function lihatAllKelas(x, y) {
+  for (y = 0; y < x.getElementsByTagName("class").length; y++) {
+    lihatjadwal1Kelas(x, y);
+  }
+}
+
+function lihatjadwal1Kelas(x, iclass) {
   // CEK IDCLASS UTK MENAMPILKAN NAMA KELAS DAN WALI KELAS
-  let idClass = x.getElementsByTagName("class")[20].getAttribute("id");
-  let nameClass = x.getElementsByTagName("class")[20].getAttribute("name");
+  let idClass = x.getElementsByTagName("class")[iclass].getAttribute("id");
+  let nameClass = x.getElementsByTagName("class")[iclass].getAttribute("name");
+
   let teacheridClass = x
-    .getElementsByTagName("class")[20]
-    .getAttribute("teacherid");
-  document
+    .getElementsByTagName("class")
+    [iclass].getAttribute("teacherid");
+  /*
+    document
     .getElementById("jdlKelas")
     .appendChild(document.createTextNode("Kelas: " + nameClass));
   for (let i = 0; i < x.getElementsByTagName("teacher").length; i++) {
@@ -151,12 +162,13 @@ function lihatjadwalKelas(x) {
       console.log(nameTeacher);
     }
   }
-
+*/
   //MEMILAH DAFTAR PEMBELAJARAN BERDASARKAN IDCLASS
   countLessonidClass = 0;
+  console.log(nameClass)
   document.getElementById(
     "lihatjadwalKelas"
-  ).innerHTML += `<br> <hr style="border-top: 2px solid red;">`;
+  ).innerHTML += `<h1>`+nameClass+`</h1><hr style="border-top: 2px solid red;">`;
   let ul = document.createElement("ol");
   for (let i = 0; i < x.getElementsByTagName("lesson").length; i++) {
     idLesson = x.getElementsByTagName("lesson")[i].getAttribute("id");
@@ -202,7 +214,7 @@ function lihatjadwalKelas(x) {
       for (t = 0; t < teachersidsLesson.length; t++) {
         for (j = 0; j < x.getElementsByTagName("teacher").length; j++) {
           idTeacher = x.getElementsByTagName("teacher")[j].getAttribute("id");
-          console.log(teachersidsLesson.length);
+          
           if (teachersidsLesson[t] == idTeacher) {
             genderTeacher = x
               .getElementsByTagName("teacher")
@@ -231,7 +243,7 @@ function lihatjadwalKelas(x) {
             } else {
               gendernameTeacherLesson = titleTeacherLesson + nameTeacherLesson;
             }
-            //console.log(gendernameTeacherLesson);
+            
           }
         }
       }
@@ -239,7 +251,6 @@ function lihatjadwalKelas(x) {
       //MENGAMBIL HARI-HARI DAN JAM-JAM PERIODE PEMBELAJARAN DI TAG-ID CARD
       countLessonidCard = "";
       namedaysperiodCard = "";
-
       for (c = 0; c < x.getElementsByTagName("card").length; c++) {
         lessonidCard = x
           .getElementsByTagName("card")
@@ -259,9 +270,6 @@ function lihatjadwalKelas(x) {
                 [c].getAttribute("period");
             }
           }
-
-          //console.log(nameSubjectLesson, namedaysCard, periodCard, namedaysperiodCard);
-
           console.log(
             countLessonidClass,
             nameClass,
@@ -272,7 +280,9 @@ function lihatjadwalKelas(x) {
           );
           let br = document.createElement("br");
           let liText = document.createTextNode(
-            "Mapel: " +
+            "Kelas: " +
+              nameClass +
+              " Mapel: " +
               nameSubjectLesson +
               " dengan Guru: " +
               gendernameTeacherLesson +
@@ -293,6 +303,7 @@ function lihatjadwalKelas(x) {
     }
   }
 }
+
 /*
 
 function ambilHari(x) {

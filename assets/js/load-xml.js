@@ -168,7 +168,7 @@ function lihatjadwal1Kelas(x, iclass) {
   console.log(nameClass)
   document.getElementById(
     "lihatjadwalKelas"
-  ).innerHTML += `<h1>`+nameClass+`</h1><hr style="border-top: 2px solid red;">`;
+  ).innerHTML += `<h1>Kelas: `+nameClass+`</h1><hr style="border-top: 2px solid red;">`;
   let ul = document.createElement("ol");
   for (let i = 0; i < x.getElementsByTagName("lesson").length; i++) {
     idLesson = x.getElementsByTagName("lesson")[i].getAttribute("id");

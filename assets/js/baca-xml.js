@@ -24,7 +24,6 @@ function lihatjadwalKelas(x) {
   let nameSubject = "";
   let nameTeacher = "";
   let titleTeacher = "";
-  let titlenameTeacher = "";
 
   while (i < x.getElementsByTagName("card").length) {
     let baris = document.createElement("tr");
@@ -78,7 +77,7 @@ function lihatjadwalKelas(x) {
             nameSubject = x
               .getElementsByTagName("subject")
               [m].getAttribute("name");
-
+            let titlenameTeacher = "";
             while (n < teacheridsLesson.length) {
               while (o < countTagTeacher) {
                 idTeacher = x
@@ -95,26 +94,18 @@ function lihatjadwalKelas(x) {
                   } else {
                     titleTeacher = "";
                   }
+                  nameTeacher = x
+                    .getElementsByTagName("teacher")
+                    [o].getAttribute("name");
 
-                  nameTeacher =
-                    titleTeacher +
-                    x.getElementsByTagName("teacher")[o].getAttribute("name");
-
-                  /*
                   if (teacheridsLesson.length > 1) {
                     if (titlenameTeacher != "") {
                       titlenameTeacher =
                         titlenameTeacher +
                         " dan " +
                         (titleTeacher + nameTeacher);
-                    } else
-                      titlenameTeacher =
-                        titlenameTeacher + (titleTeacher + nameTeacher);
-                  } else {
-                    titlenameTeacher = titleTeacher + nameTeacher;
-                  }
-*/
-                  console.log(i, "index= "+n, nameTeacher);
+                    } else titlenameTeacher = titleTeacher + nameTeacher;
+                  } else titlenameTeacher = titleTeacher + nameTeacher;
                 }
                 ++o;
               }
@@ -128,7 +119,7 @@ function lihatjadwalKelas(x) {
               nameDaysdef,
               periodCard,
               nameSubject,
-              teacheridsLesson.length + nameTeacher,
+              titlenameTeacher,
             ];
           }
           ++m;

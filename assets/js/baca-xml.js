@@ -97,13 +97,11 @@ function lihatjadwalKelas(x) {
                   nameTeacher = x
                     .getElementsByTagName("teacher")
                     [o].getAttribute("name");
-
+                  let newline = document.createElement("br");
                   if (teacheridsLesson.length > 1) {
                     if (titlenameTeacher != "") {
                       titlenameTeacher =
-                        titlenameTeacher +
-                        " dan " +
-                        (titleTeacher + nameTeacher);
+                        titlenameTeacher + " <br> " +(titleTeacher + nameTeacher);
                     } else titlenameTeacher = titleTeacher + nameTeacher;
                   } else titlenameTeacher = titleTeacher + nameTeacher;
                 }
@@ -132,7 +130,7 @@ function lihatjadwalKelas(x) {
     while (ctk < arrayPembelajaran.length) {
       let sel = document.createElement("td");
       let textSel = document.createTextNode(arrayPembelajaran[ctk]);
-      sel.appendChild(textSel);
+      sel.innerHTML = textSel.nodeValue;
       baris.appendChild(sel);
       ++ctk;
     }
@@ -142,4 +140,29 @@ function lihatjadwalKelas(x) {
     tbody.appendChild(baris);
   }
   document.getElementById("tbllihatjadwalKelas").appendChild(tbody);
+  $("#tbllihatjadwalKelas").DataTable({
+    responsive: true,
+    scrollX: false,
+
+    dom: "Blftrip",
+    buttons: ["pdf", "print"],
+    columnDefs: [
+      {
+        type: "natural",
+        targets: 3,
+        targets: 1,
+      },
+      {
+        type: "natural",
+        targets: 0,
+        visible: false,
+      },
+    ],
+    order: [
+      [2, "desc"],
+      [3, "asc"],
+    ],
+    //buttons: ["copy", "csv", "excel", "pdf", "print"],
+    //dom: '<"top"if>rt<"bottom"lp><"clear">',
+  });
 }

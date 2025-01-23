@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   //fetch the data as soon as the page has loaded
-  let url = "../jdwl/assets/data/jadwal.xml";
+  let url = "./assets/data/jadwal.xml";
   fetch(url)
     .then((response) => response.text())
     .then((data) => {

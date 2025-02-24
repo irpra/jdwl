@@ -159,6 +159,7 @@ function lihatjadwalKelas(x) {
       },
     ],
     order: [
+      [1, "asc"],
       [2, "desc"],
       [3, "asc"],
     ],
